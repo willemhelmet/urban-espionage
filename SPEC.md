@@ -83,7 +83,6 @@ Pre-game waiting room
 - **Game Settings** - (Host only) Configure duration, team ratios, map radius, home base location
 - **Start Game** - (Host only) Begins game when enough players joined
 - **Leave Lobby** - Exit back to title
-
 ### Team Reveal Modal
 Shown immediately when game starts
 - **Dramatic Reveal Animation** - Build suspense before showing team
@@ -168,7 +167,6 @@ Results after game ends
 - **Rematch Button** - Start new game with same players
 - **Share Results** - Social media integration
 - **Return to Title** - Exit to main menu
-
 ### Tutorial Screen
 Accessible from title screen or shown on first launch
 - **Interactive Walkthrough**
