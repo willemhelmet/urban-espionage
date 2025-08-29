@@ -1,69 +1,75 @@
-# React + TypeScript + Vite
+# Urban Espionage
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+🎮 **[Play Live Demo](https://[your-github-username].github.io/urban-espionage/)**
 
-Currently, two official plugins are available:
+An augmented reality game where players turn their neighborhood into a real-world board game of espionage and deception.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Game Concept
 
-## Expanding the ESLint configuration
+Urban Espionage is a location-based multiplayer game where players are secretly divided into two teams:
+- **Blue Team**: Complete missions to win
+- **Red Team**: Infiltrate and sabotage without getting caught
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Players use their phones to navigate the real world, collect items, complete tasks, and engage in strategic gameplay - all while trying to figure out who they can trust.
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Key Features
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+### Real-World Gameplay
+- Use your actual location as the game board
+- Set up a "home base" at any central location (office, school, gym, etc.)
+- Items and task zones spawn around your neighborhood
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Items & Equipment
+- Single inventory slot system for strategic choices
+- Deployable items: EMP zones, cameras, mines, motion sensors
+- Offensive items: Daggers, poison, time bombs
+- Defensive items: Armor, invisibility cloak, masks
+
+### Dynamic Tasks
+- Launch collaborative missions from home base
+- Task types include capture objectives, defuse bombs, collect intel
+- Multiple players can work together (but beware of saboteurs!)
+
+### Trust No One
+- Red team members appear as blue team to everyone
+- Use deception and psychology to achieve your goals
+- Death and revival mechanics add stakes to every encounter
+
+## Tech Stack
+
+- **Frontend**: React, TypeScript, Tailwind CSS
+- **Maps**: Leaflet with OpenStreetMap
+- **Real-time**: Socket.io for live player tracking
+- **State**: Zustand for game state management
+- **Build**: Vite
+
+## Development Status
+
+Currently in Phase 1 of development - building core map functionality and player tracking. See [PHASES.md](./PHASES.md) for the development roadmap.
+
+## Getting Started
+
+```bash
+# Install dependencies
+npm install
+
+# Run development server
+npm run dev
+
+# Deploy to GitHub Pages
+npm run deploy
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Documentation
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- [Full Game Specification](./SPEC.md) - Complete game design document
+- [Development Phases](./PHASES.md) - Implementation roadmap
+- [API Documentation](./SPEC.md#api) - Technical interfaces and backend design
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Contributing
+
+This is an active development project. Check the current phase in PHASES.md to see what's being worked on.
+
+## License
+
+[Your License Here]
