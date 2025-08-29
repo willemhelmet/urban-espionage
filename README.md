@@ -1,6 +1,6 @@
 # Urban Espionage
 
-🎮 **[Play Live Demo](https://[your-github-username].github.io/urban-espionage/)**
+🎮 **[Play Live Demo](https://willemhelmet.github.io/urban-espionage/)**
 
 An augmented reality game where players turn their neighborhood into a real-world board game of espionage and deception.
 
