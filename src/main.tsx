@@ -1,6 +1,6 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import App from "./app.tsx";
 import ErrorPage from "./routes/error-page.tsx";
@@ -13,38 +13,38 @@ import GameEnd from "./routes/game-end.tsx";
 
 const router = createBrowserRouter([
   {
-    path: '/',
-    element: <App/>,
-    errorElement: <ErrorPage/>,
+    path: "/",
+    element: <App />,
+    errorElement: <ErrorPage />,
   },
   {
-    path: '/title',
-    element: <Title/>
+    path: "/title",
+    element: <Title />,
   },
   {
-    path: '/settings',
-    element: <Settings/>
+    path: "/settings",
+    element: <Settings />,
   },
   {
-    path: '/lobby',
-    element: <Lobby/>
+    path: "/lobby",
+    element: <Lobby />,
   },
   {
-    path: '/game-start',
-    element: <GameStart/>
+    path: "/game-start",
+    element: <GameStart />,
   },
   {
-    path: '/game',
-    element: <Game/>
+    path: "/game",
+    element: <Game />,
   },
   {
-    path: '/game-end',
-    element: <GameEnd/>
+    path: "/game-end",
+    element: <GameEnd />,
   },
 ]);
 
-createRoot(document.getElementById('root')!).render(
+createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <RouterProvider router={router}/>
+    <RouterProvider router={router} />
   </StrictMode>,
-)
+);
