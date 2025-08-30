@@ -6,7 +6,7 @@
 
 Start with just a map and your location:
 
-- Basic React app with routes (Title ’ Game screen)
+- Basic React app with routes (Title ï¿½ Game screen)
 - Leaflet map showing your current position
 - Mock "other players" as static dots
 - Simple Zustand store for game state
@@ -18,7 +18,14 @@ Start with just a map and your location:
 - [x] Install and configure Tailwind CSS
 - [x] Add Leaflet map to game screen
 - [x] Implement location tracking with GPS
-- [ ] Add mock players on map
+- [x] Add mock players on map
+  - [x] Create Player componennt
+  - [x] Generate 5-8 mock players within ~500m radius
+  - [x] Create PlayerMarker component with icon and name
+  - [x] Show different visual states (active/recent/dark)
+  - [x] Add click interaction to show player details
+  - [x] Display item indicator for players with items
+  - [x] Ensure visual distinction from own marker
 - [ ] Create basic Zustand store
 - [ ] Style the UI with Tailwind
 
@@ -153,4 +160,3 @@ Make it a game:
 - **Active Phase:** Phase 1 - Core Foundation
 - **Completed:** Basic routing, Tailwind setup, Leaflet map, GPS location
 - **Next Steps:** Add mock players, create Zustand store
-
