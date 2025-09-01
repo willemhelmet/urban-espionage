@@ -17,8 +17,8 @@ export interface Player {
 export interface Coordinates {
   latitude: number;
   longitude: number;
-  accuracy?: number;
   timestamp: Date;
+  accuracy?: number;
 }
 
 export interface Zone {

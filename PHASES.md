@@ -26,7 +26,7 @@ Start with just a map and your location:
   - [x] Add click interaction to show player details
   - [x] Display item indicator for players with items
   - [x] Ensure visual distinction from own marker
-- [ ] Create basic Zustand store
+- [x] Create basic Zustand store
 - [ ] Style the UI with Tailwind
 
 ## Phase 2: Game Lobby (1 week)
