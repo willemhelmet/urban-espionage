@@ -1,4 +1,3 @@
-import Title from "./routes/settings";
 function App() {
   return (
     <>

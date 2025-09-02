@@ -114,6 +114,7 @@ export interface TaskMetadata {
 
 export interface Game {
   id: string;
+  code: string; // 6-character code for joining the game
   hostId: string;
   status: "lobby" | "active" | "completed";
   homeBase: Zone;

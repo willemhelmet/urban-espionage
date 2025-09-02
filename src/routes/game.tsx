@@ -2,7 +2,8 @@ import Player from "../components/player.tsx";
 import Map from "../components/map.tsx";
 import Button from "../components/button.tsx";
 import { type Player as PlayerType } from "../types";
-import { MapControlProvider, useMapControl } from "../hooks/useMapControl.tsx";
+import { MapControlProvider } from "../contexts/MapControlContext";
+import { useMapControl } from "../hooks/useMapControl";
 
 function GameContent() {
   const { recenterMap } = useMapControl();

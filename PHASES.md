@@ -33,26 +33,77 @@ Start with just a map and your location:
   - [x] Style map controls (recenter, zoom)
   - [x] Add responsive design for different screen sizes
 
-## Phase 2: Game Lobby (1 week)
+## Phase 2: Django Backend & Game Lobby (1-2 weeks)
 
-**Goal:** Multiple people can join same lobby
+**Goal:** Multiple people can join same lobby via Django REST API
 
-Add multiplayer basics:
+Backend infrastructure and multiplayer basics:
 
-- Create game screen (just set home base)
-- Join game with code
-- Player list showing who's in
-- Simple Firebase/Supabase setup
-- Store games and players in database
+- Django REST Framework API on Raspberry Pi
+- PostgreSQL database for game state
+- Docker deployment for easy setup
+- Create/join games with 6-character codes
+- Real-time lobby updates via WebSockets
+- Player list and game management
 
-### Phase 2 Tasks
+### Phase 2 Backend Tasks
 
-- [ ] Set up Firebase/Supabase
-- [ ] Create game creation flow
-- [ ] Generate and display invite codes
-- [ ] Implement join game by code
-- [ ] Show player list in lobby
-- [ ] Add "Start Game" for host
+- [x] Set up disco project with REST framework
+  - [x] Initialize Django disco project structure
+  - [x] Add Django REST Framework and CORS headers (?)
+  - [x] Configure PostgreSQL database connection
+  - [x] Set up project settings for production
+- [x] Create Game and Player models
+  - [x] Game model (code, host, status, home_base, settings)
+  - [x] Player model (name, game_id, team, position, status)
+  - [x] Event model for game activity log
+  - [x] Add model serializers
+- [ ] Implement game management API
+  - [ ] POST /api/games/ - Create game with code generation
+  - [ ] POST /api/games/{code}/join/ - Join game with player name
+  - [ ] GET /api/games/{code}/ - Get game details
+  - [ ] GET /api/games/{code}/players/ - List players in game
+  - [ ] POST /api/games/{code}/start/ - Start game (host only)
+  - [ ] DELETE /api/games/{code}/leave/ - Leave game
+- [ ] Add WebSocket support with Django Channels
+  - [ ] Install and configure Django Channels
+  - [ ] Set up Redis for channel layer
+  - [ ] Create WebSocket consumer for game rooms
+  - [ ] Implement player join/leave notifications
+  - [ ] Add game state change broadcasts
+- [ ] Docker configuration for Raspberry Pi
+  - [ ] Create multi-stage Dockerfile for ARM architecture
+  - [ ] Write docker-compose.yml with Django, PostgreSQL, Redis
+  - [ ] Add environment variable configuration
+  - [ ] Create deployment scripts
+  - [ ] Set up volume mounts for data persistence
+
+### Phase 2 Frontend Tasks
+
+- [ ] Install backend communication libraries
+  - [ ] Add axios for REST API calls
+  - [ ] Add socket.io-client for WebSockets
+  - [ ] Configure environment variables for API endpoint
+- [ ] Create API service layer
+  - [ ] Game service (create, join, get details)
+  - [ ] Player service (list, update position)
+  - [ ] WebSocket service for real-time updates
+  - [ ] Error handling and retry logic
+- [ ] Update lobby screen with backend integration
+  - [ ] Connect "New Game" to create game API
+  - [ ] Display generated game code
+  - [ ] Implement join game by code
+  - [ ] Show real-time player list
+  - [ ] Add loading and error states
+- [ ] Update Zustand store for backend data
+  - [ ] Store game code and game ID
+  - [ ] Cache current player info
+  - [ ] Manage player list
+  - [ ] Track connection status
+- [ ] Add game start flow
+  - [ ] Host sets home base location
+  - [ ] "Start Game" button for host only
+  - [ ] Navigate all players to game screen on start
 
 ## Phase 3: Real-time Updates (1 week)
 

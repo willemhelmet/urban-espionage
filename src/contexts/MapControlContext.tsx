@@ -1,16 +1,7 @@
-import { createContext, useContext, useState, type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { type Map as LeafletMap } from "leaflet";
 import { LatLng } from "leaflet";
-
-interface MapControlContextType {
-  map: LeafletMap | null;
-  setMap: (map: LeafletMap | null) => void;
-  userPosition: LatLng | null;
-  setUserPosition: (position: LatLng | null) => void;
-  recenterMap: () => void;
-}
-
-const MapControlContext = createContext<MapControlContextType | undefined>(undefined);
+import { MapControlContext } from "./MapControl.context";
 
 export function MapControlProvider({ children }: { children: ReactNode }) {
   const [map, setMap] = useState<LeafletMap | null>(null);
@@ -32,12 +23,4 @@ export function MapControlProvider({ children }: { children: ReactNode }) {
       {children}
     </MapControlContext.Provider>
   );
-}
-
-export function useMapControl() {
-  const context = useContext(MapControlContext);
-  if (!context) {
-    throw new Error("useMapControl must be used within MapControlProvider");
-  }
-  return context;
 }
