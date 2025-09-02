@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
-import { Marker, Popup, useMapEvents } from "react-leaflet";
+import { Marker, Popup } from "react-leaflet";
 import { LatLng } from "leaflet";
 import L from "leaflet";
 import { type Player as PlayerType } from "../types";
+import { useMapControl } from "../hooks/useMapControl";
 
 interface PlayerProps {
   player?: PlayerType;
@@ -32,33 +32,11 @@ const deadPlayerIcon = L.divIcon({
 });
 
 export default function Player({ player, isSelf = false }: PlayerProps) {
-  const [selfPosition, setSelfPosition] = useState<LatLng | null>(null);
-
-  // Only use map events if this is the self player
-  const map = useMapEvents({
-    click() {
-      if (isSelf) {
-        map.locate({ enableHighAccuracy: true });
-      }
-    },
-    locationfound(e) {
-      if (isSelf) {
-        setSelfPosition(e.latlng);
-        map.flyTo(e.latlng, map.getZoom());
-      }
-    },
-  });
-
-  // Auto-locate on mount for self player
-  useEffect(() => {
-    if (isSelf) {
-      map.locate({ enableHighAccuracy: true });
-    }
-  }, [map, isSelf]);
+  const { userPosition } = useMapControl();
 
   // Determine position based on whether this is self or other player
   const position = isSelf
-    ? selfPosition
+    ? userPosition
     : player?.position
       ? new LatLng(player.position.latitude, player.position.longitude)
       : null;
@@ -160,12 +138,7 @@ export default function Player({ player, isSelf = false }: PlayerProps) {
 
           {/* Self-specific elements */}
           {isSelf && (
-            <>
-              <div className="mt-1 text-xs text-gray-500">📍 GPS Active</div>
-              <div className="mt-2 pt-2 border-t text-xs text-gray-600">
-                Click map to update location
-              </div>
-            </>
+            <div className="mt-1 text-xs text-gray-500">📍 GPS Active</div>
           )}
         </div>
       </Popup>

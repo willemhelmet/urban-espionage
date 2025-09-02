@@ -1,3 +1,4 @@
+import Title from "./routes/settings";
 function App() {
   return (
     <>
@@ -10,7 +11,7 @@ function App() {
           <a href="/settings">Settings</a>
         </li>
         <li>
-        <a href="/lobby">Lobby</a>
+          <a href="/lobby">Lobby</a>
         </li>
         <li>
           <a href="/game-start">Game Start</a>
@@ -19,11 +20,11 @@ function App() {
           <a href="/game">Game</a>
         </li>
         <li>
-          <a href="/end">Game End</a>
+          <a href="/game-end">Game End</a>
         </li>
       </ul>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

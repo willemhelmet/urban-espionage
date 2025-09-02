@@ -12,7 +12,7 @@ Start with just a map and your location:
 - Simple Zustand store for game state
 - No backend yet - just local state
 
-### Tasks
+### Phase 1 Tasks
 
 - [x] Set up React Router with basic routes
 - [x] Install and configure Tailwind CSS
@@ -27,7 +27,11 @@ Start with just a map and your location:
   - [x] Display item indicator for players with items
   - [x] Ensure visual distinction from own marker
 - [x] Create basic Zustand store
-- [ ] Style the UI with Tailwind
+- [x] Style the UI with Tailwind
+  - [x] Style Title screen with game branding
+  - [x] Style Game screen with minimal HUD overlay
+  - [x] Style map controls (recenter, zoom)
+  - [x] Add responsive design for different screen sizes
 
 ## Phase 2: Game Lobby (1 week)
 
@@ -41,7 +45,7 @@ Add multiplayer basics:
 - Simple Firebase/Supabase setup
 - Store games and players in database
 
-### Tasks
+### Phase 2 Tasks
 
 - [ ] Set up Firebase/Supabase
 - [ ] Create game creation flow
@@ -61,7 +65,7 @@ Make it live:
 - Basic "visibility" system (active/inactive)
 - Simple event log
 
-### Tasks
+### Phase 3 Tasks
 
 - [ ] Set up WebSocket connections
 - [ ] Broadcast player positions
@@ -80,7 +84,7 @@ Add ONE item type first:
 - Single inventory slot
 - Use item (start with something simple like "invisibility cloak")
 
-### Tasks
+### Phase 4 Tasks
 
 - [ ] Create item spawn system
 - [ ] Implement proximity detection
@@ -99,7 +103,7 @@ Implement ONE task type:
 - Progress tracking
 - Success/fail states
 
-### Tasks
+### Phase 5 Tasks
 
 - [ ] Create task zones on map
 - [ ] Implement task launching from home base
@@ -118,7 +122,7 @@ Make it a game:
 - Game end screen
 - Basic stats
 
-### Tasks
+### Phase 6 Tasks
 
 - [ ] Implement team assignment on game start
 - [ ] Add team reveal modal
