@@ -1,4 +1,8 @@
+import { useStore as useGameStore } from "../store";
+
 export default function GameStart() {
+  const { gameCode } = useGameStore();
+  
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center p-8">
       <div className="w-full max-w-lg text-center">
@@ -29,10 +33,10 @@ export default function GameStart() {
           </a>
           
           <a 
-            href="/lobby" 
+            href={gameCode ? `/lobby/${gameCode}` : "/title"} 
             className="block text-gray-400 hover:text-cyan-400 text-sm transition-colors duration-200"
           >
-            Back to Lobby
+            {gameCode ? "Back to Lobby" : "Back to Home"}
           </a>
         </div>
       </div>

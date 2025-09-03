@@ -10,6 +10,8 @@ import Lobby from "./routes/lobby.tsx";
 import GameStart from "./routes/game-start.tsx";
 import Game from "./routes/game.tsx";
 import GameEnd from "./routes/game-end.tsx";
+import Admin from "./routes/admin.tsx";
+import CreateGame from "./routes/createGame.tsx";
 
 const router = createBrowserRouter([
   {
@@ -26,7 +28,7 @@ const router = createBrowserRouter([
     element: <Settings />,
   },
   {
-    path: "/lobby",
+    path: "/lobby/:gameCode",
     element: <Lobby />,
   },
   {
@@ -40,6 +42,14 @@ const router = createBrowserRouter([
   {
     path: "/game-end",
     element: <GameEnd />,
+  },
+  {
+    path: "/admin",
+    element: <Admin />,
+  },
+  {
+    path: "/create-game",
+    element: <CreateGame />,
   },
 ]);
 

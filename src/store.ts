@@ -37,7 +37,14 @@ interface GameState {
   unreadEvents: number;
 
   // Actions
-  createGame: (homeBase: Coordinates, playerName: string) => Promise<void>;
+  createGame: (homeBase: Coordinates, playerName: string, config?: {
+    maxPlayers?: number;
+    gameDuration?: number;
+    mapRadius?: number;
+    redTeamRatio?: number;
+    tasksToWin?: number;
+    failuresToLose?: number;
+  }) => Promise<void>;
   joinGame: (inviteCode: string, playerName: string) => Promise<void>;
   leaveGame: () => Promise<void>;
   startGame: () => Promise<void>;
@@ -76,31 +83,52 @@ export const useStore = create<GameState>((set, get) => ({
   unreadEvents: 0,
 
   // Actions
-  createGame: async (homeBase: Coordinates, playerName: string): Promise<void> => {
+  createGame: async (homeBase: Coordinates, playerName: string, config?: {
+    maxPlayers?: number;
+    gameDuration?: number;
+    mapRadius?: number;
+    redTeamRatio?: number;
+    tasksToWin?: number;
+    failuresToLose?: number;
+  }): Promise<void> => {
     try {
       set({ connectionError: null });
       
-      // Create game on backend
+      // Create game on backend (this also creates the host player)
       const game = await gameService.createGame({
         homeBaseLat: homeBase.latitude,
         homeBaseLng: homeBase.longitude,
+        hostName: playerName,
+        config,
       });
       
-      // Join the game as the host
-      const { player } = await gameService.joinGame(game.code, playerName);
+      // The backend creates the host player when creating the game
+      const hostPlayer = game.players[0];
       
-      // Connect WebSocket
-      await wsService.connect(game.code, player.id);
-      
-      // Update store
+      // Update store first (so we can navigate even if WebSocket fails)
       set({
         currentGame: game,
-        currentPlayer: player,
+        currentPlayer: hostPlayer,
         gameCode: game.code,
         isHost: true,
-        players: [player],
-        isConnected: true,
+        players: game.players,
+        isConnected: false, // Will be true if WebSocket connects
       });
+      
+      // Try to connect WebSocket (non-blocking)
+      wsService.connect(game.code, hostPlayer.id)
+        .then(() => {
+          console.log("WebSocket connected successfully");
+          set({ isConnected: true });
+        })
+        .catch((error) => {
+          console.error("WebSocket connection failed:", error);
+          // Game creation still succeeds, just without real-time updates
+          set({ 
+            connectionError: "Real-time updates unavailable. You can still play the game.",
+            isConnected: false 
+          });
+        });
       
       // Listen for player updates
       wsService.on('player_joined', (event) => {
@@ -162,9 +190,14 @@ export const useStore = create<GameState>((set, get) => ({
           currentGame: state.currentGame ? { ...state.currentGame, status: 'active' } : null,
         }));
       });
-    } catch (error) {
+    } catch (error: any) {
       console.error('Failed to join game:', error);
-      set({ connectionError: 'Failed to join game. Check the code and try again.' });
+      // Extract error message from backend response if available
+      const errorMessage = error?.response?.data?.detail || 
+                         error?.response?.data?.error || 
+                         error?.response?.data?.message ||
+                         'Failed to join game. Check the code and try again.';
+      set({ connectionError: errorMessage });
       throw error;
     }
   },

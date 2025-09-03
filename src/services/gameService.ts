@@ -14,6 +14,7 @@ export interface GameConfigRequest {
 export interface CreateGameData {
   homeBaseLat: number;
   homeBaseLng: number;
+  hostName: string;
   config?: GameConfigRequest;
 }
 
@@ -125,9 +126,15 @@ class GameService {
   // Create a new game
   async createGame(data: CreateGameData): Promise<Game> {
     const response = await api.post<GameApiResponse>("/api/games/", {
-      home_base_lat: data.homeBaseLat,
-      home_base_lng: data.homeBaseLng,
-      ...data.config,
+      homeBaseLat: data.homeBaseLat,
+      homeBaseLng: data.homeBaseLng,
+      hostName: data.hostName,
+      maxPlayers: data.config?.maxPlayers || 20,
+      gameDuration: data.config?.gameDuration || 60,
+      mapRadius: data.config?.mapRadius || 1000,
+      redTeamRatio: data.config?.redTeamRatio || 0.3,
+      tasksToWin: data.config?.tasksToWin || 5,
+      failuresToLose: data.config?.failuresToLose || 2,
     });
     return mapApiGameToGame(response.data);
   }
@@ -137,28 +144,37 @@ class GameService {
     code: string,
     playerName: string,
   ): Promise<{ game: Game; player: Player }> {
-    const response = await api.post<{
-      game: GameApiResponse;
-      player: PlayerApiResponse;
-    }>(`/api/games/${code}/join/`, { name: playerName });
+    // Join the game (returns player)
+    const playerResponse = await api.post<PlayerApiResponse>(
+      `/api/games/${code}/join/`, 
+      { player_name: playerName }
+    );
+    
+    // Get the full game details
+    const gameResponse = await api.get<GameApiResponse>(`/api/games/${code}/`);
+    
     return {
-      game: mapApiGameToGame(response.data.game),
-      player: mapApiPlayerToPlayer(response.data.player),
+      game: mapApiGameToGame(gameResponse.data),
+      player: mapApiPlayerToPlayer(playerResponse.data),
     };
   }
 
-  // Get game details
-  async getGame(code: string): Promise<Game> {
+  // Get game details (returns domain model)
+  async getGame(code: string): Promise<GameApiResponse> {
+    const response = await api.get<GameApiResponse>(`/api/games/${code}/`);
+    return response.data;
+  }
+
+  // Get game details mapped to domain model
+  async getGameMapped(code: string): Promise<Game> {
     const response = await api.get<GameApiResponse>(`/api/games/${code}/`);
     return mapApiGameToGame(response.data);
   }
 
-  // Get players in game
+  // Get players in game (they're included in the game response)
   async getPlayers(code: string): Promise<Player[]> {
-    const response = await api.get<PlayerApiResponse[]>(
-      `/api/games/${code}/players/`,
-    );
-    return response.data.map(mapApiPlayerToPlayer);
+    const response = await api.get<GameApiResponse>(`/api/games/${code}/`);
+    return response.data.players.map(mapApiPlayerToPlayer);
   }
 
   // Start game (host only)
@@ -170,8 +186,8 @@ class GameService {
   }
 
   // Leave game
-  async leaveGame(code: string): Promise<void> {
-    await api.delete(`/api/games/${code}/leave/`);
+  async leaveGame(code: string, playerId: string): Promise<void> {
+    await api.post(`/api/games/${code}/leave/`, { player_id: playerId });
   }
 
   // Update player position
@@ -186,6 +202,12 @@ class GameService {
       lng,
       accuracy,
     });
+  }
+
+  // Get all games (admin/debug)
+  async getAllGames(): Promise<Game[]> {
+    const response = await api.get<GameApiResponse[]>("/api/games/");
+    return response.data.map(mapApiGameToGame);
   }
 }
 

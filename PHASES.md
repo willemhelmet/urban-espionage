@@ -58,48 +58,48 @@ Backend infrastructure and multiplayer basics:
   - [x] Player model (name, game_id, team, position, status)
   - [x] Event model for game activity log
   - [x] Add model serializers
-- [ ] Implement game management API
-  - [ ] POST /api/games/ - Create game with code generation
-  - [ ] POST /api/games/{code}/join/ - Join game with player name
-  - [ ] GET /api/games/{code}/ - Get game details
-  - [ ] GET /api/games/{code}/players/ - List players in game
-  - [ ] POST /api/games/{code}/start/ - Start game (host only)
-  - [ ] DELETE /api/games/{code}/leave/ - Leave game
-- [ ] Add WebSocket support with Django Channels
-  - [ ] Install and configure Django Channels
-  - [ ] Set up Redis for channel layer
-  - [ ] Create WebSocket consumer for game rooms
-  - [ ] Implement player join/leave notifications
-  - [ ] Add game state change broadcasts
-- [ ] Docker configuration for Raspberry Pi
-  - [ ] Create multi-stage Dockerfile for ARM architecture
-  - [ ] Write docker-compose.yml with Django, PostgreSQL, Redis
-  - [ ] Add environment variable configuration
-  - [ ] Create deployment scripts
-  - [ ] Set up volume mounts for data persistence
+- [x] Implement game management API
+  - [x] POST /api/games/ - Create game with code generation
+  - [x] POST /api/games/{code}/join/ - Join game with player name
+  - [x] GET /api/games/{code}/ - Get game details
+  - [x] GET /api/games/{code}/players/ - List players in game
+  - [x] POST /api/games/{code}/start/ - Start game (host only)
+  - [x] DELETE /api/games/{code}/leave/ - Leave game
+- [x] Add WebSocket support with Django Channels
+  - [x] Install and configure Django Channels
+  - [x] Set up Redis for channel layer
+  - [x] Create WebSocket consumer for game rooms
+  - [x] Implement player join/leave notifications
+  - [x] Add game state change broadcasts
+- [x] Docker configuration for Raspberry Pi
+  - [x] Create multi-stage Dockerfile for ARM architecture
+  - [x] Write docker-compose.yml with Django, PostgreSQL, Redis
+  - [x] Add environment variable configuration
+  - [x] Create deployment scripts
+  - [x] Set up volume mounts for data persistence
 
 ### Phase 2 Frontend Tasks
 
-- [ ] Install backend communication libraries
-  - [ ] Add axios for REST API calls
-  - [ ] Add socket.io-client for WebSockets
-  - [ ] Configure environment variables for API endpoint
-- [ ] Create API service layer
-  - [ ] Game service (create, join, get details)
-  - [ ] Player service (list, update position)
-  - [ ] WebSocket service for real-time updates
-  - [ ] Error handling and retry logic
-- [ ] Update lobby screen with backend integration
-  - [ ] Connect "New Game" to create game API
-  - [ ] Display generated game code
-  - [ ] Implement join game by code
+- [x] Install backend communication libraries
+  - [x] Add axios for REST API calls
+  - [x] Add socket.io-client for WebSockets
+  - [x] Configure environment variables for API endpoint
+- [x] Create API service layer
+  - [x] Game service (create, join, get details)
+  - [x] Player service (list, update position)
+  - [x] WebSocket service for real-time updates
+  - [x] Error handling and retry logic
+- [x] Update lobby screen with backend integration
+  - [x] Connect "New Game" to create game API
+  - [x] Display generated game code
+  - [x] Implement join game by code
   - [ ] Show real-time player list
-  - [ ] Add loading and error states
-- [ ] Update Zustand store for backend data
-  - [ ] Store game code and game ID
-  - [ ] Cache current player info
-  - [ ] Manage player list
-  - [ ] Track connection status
+  - [x] Add loading and error states
+- [x] Update Zustand store for backend data
+  - [x] Store game code and game ID
+  - [x] Cache current player info
+  - [x] Manage player list
+  - [x] Track connection status
 - [ ] Add game start flow
   - [ ] Host sets home base location
   - [ ] "Start Game" button for host only
@@ -212,6 +212,10 @@ Make it a game:
 
 ## Current Status
 
-- **Active Phase:** Phase 1 - Core Foundation
-- **Completed:** Basic routing, Tailwind setup, Leaflet map, GPS location
-- **Next Steps:** Add mock players, create Zustand store
+- **Active Phase:** Phase 2 - Django Backend & Game Lobby
+- **Completed:** 
+  - Phase 1: All tasks complete (map, GPS, mock players, Zustand store)
+  - Phase 2 Backend: Django API deployed, all endpoints working, WebSocket support, Docker deployment
+  - Phase 2 Frontend: API integration, game creation/joining, admin panel fixed
+- **In Progress:** Real-time player list updates in lobby
+- **Next Steps:** Complete game start flow with home base selection

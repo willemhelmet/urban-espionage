@@ -21,6 +21,9 @@ function App() {
         <li>
           <a href="/game-end">Game End</a>
         </li>
+        <li>
+          <a href="/admin">Admin</a>
+        </li>
       </ul>
     </>
   );
