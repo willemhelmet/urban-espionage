@@ -15,6 +15,7 @@ export default function Lobby() {
   const [error, setError] = useState<string | null>(null);
   const [wsConnected, setWsConnected] = useState(false);
   const [startingGame, setStartingGame] = useState(false);
+  const [gameStarted, setGameStarted] = useState(false);
 
   // Fetch game data
   const fetchGame = async () => {
@@ -28,6 +29,10 @@ export default function Lobby() {
       const gameData = await gameService.getGame(gameCode);
       setGame(gameData);
       setError(null);
+      // Check if game is already started
+      if (gameData.status === 'active') {
+        setGameStarted(true);
+      }
     } catch (err) {
       console.error("Failed to fetch game:", err);
       setError(err instanceof Error ? err.message : "Failed to fetch game");
@@ -60,8 +65,14 @@ export default function Lobby() {
       fetchGame(); // Refresh when player leaves
     });
 
-    const unsubscribeStarted = wsService.on("game_started", () => {
-      navigate("/game"); // Navigate to game when started
+    const unsubscribeStarted = wsService.on("game_started", (event) => {
+      console.log("Game started event received:", event);
+      setGameStarted(true);
+      // Non-host players will see a "Begin Game" button instead of auto-navigating
+      // Host already navigated after starting the game
+      if (!isHost) {
+        fetchGame(); // Refresh to get updated game status
+      }
     });
 
     // Initial fetch
@@ -87,8 +98,10 @@ export default function Lobby() {
     
     try {
       await gameService.startGame(gameCode);
-      // Don't navigate immediately - wait for WebSocket event
-      // The game_started event will trigger navigation for all players
+      // Wait a moment for WebSocket broadcast to complete before navigating
+      setTimeout(() => {
+        navigate("/game");
+      }, 500);
     } catch (err) {
       console.error("Failed to start game:", err);
       setError(err instanceof Error ? err.message : "Failed to start game");
@@ -209,13 +222,31 @@ export default function Lobby() {
             </Button>
           )}
 
-          {!isHost && game.status === 'lobby' && (
+          {!isHost && game.status === 'lobby' && !gameStarted && (
             <div className="text-center text-gray-400 py-4">
               Waiting for host to start the game...
             </div>
           )}
 
-          <Button onClick={handleLeaveGame}>Leave Lobby</Button>
+          {!isHost && (game.status === 'active' || gameStarted) && (
+            <div className="space-y-4">
+              <div className="bg-green-900/50 border border-green-500 text-green-200 px-6 py-4 rounded-lg text-center">
+                <p className="text-lg font-semibold mb-2">Game Started!</p>
+                <p className="text-sm">The host has started the game. Click below when you're ready to begin.</p>
+              </div>
+              <Button 
+                variant="primary" 
+                onClick={() => navigate("/game")}
+                className="w-full"
+              >
+                Begin Game
+              </Button>
+            </div>
+          )}
+
+          {game.status === 'lobby' && (
+            <Button onClick={handleLeaveGame}>Leave Lobby</Button>
+          )}
         </div>
       </div>
     </div>

@@ -58,6 +58,7 @@ class WebSocketService {
   connect(gameCode: string, playerId?: string): Promise<void> {
     return new Promise((resolve, reject) => {
       if (this.socket?.readyState === WebSocket.OPEN && this.gameCode === gameCode) {
+        console.log("WebSocket already connected to game:", gameCode);
         resolve();
         return;
       }
@@ -133,6 +134,7 @@ class WebSocketService {
 
   private handleMessage(data: WebSocketEventData): void {
     const { type, player, game, ...rest } = data;
+    console.log("WebSocket message received:", type, data);
     
     switch (type) {
       case "player_joined":
