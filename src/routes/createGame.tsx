@@ -4,6 +4,7 @@ import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
 import L from "leaflet";
 import Button from "../components/button";
 import { useStore } from "../store";
+import { useGeolocation } from "../hooks/useGeolocation";
 import type { Coordinates } from "../types";
 
 // Custom home base icon
@@ -60,10 +61,7 @@ export default function CreateGame() {
 
   const [playerName, setPlayerName] = useState("");
   const [homeBase, setHomeBase] = useState<Coordinates | null>(null);
-  const [currentLocation, setCurrentLocation] = useState<Coordinates>({
-    latitude: 37.7749,
-    longitude: -122.4194,
-  });
+  const { location: currentLocation, loading: locationLoading, error: locationError } = useGeolocation();
 
   // Game configuration
   const [maxPlayers, setMaxPlayers] = useState(20);
@@ -76,24 +74,12 @@ export default function CreateGame() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Get user's current location
+  // Set home base to user's location once it's available
   useEffect(() => {
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const coords = {
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-          };
-          setCurrentLocation(coords);
-          setHomeBase(coords); // Default home base to current location
-        },
-        (error) => {
-          console.error("Error getting location:", error);
-        },
-      );
+    if (currentLocation && !homeBase) {
+      setHomeBase(currentLocation);
     }
-  }, []);
+  }, [currentLocation, homeBase]);
 
   const handleCreateGame = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -276,14 +262,20 @@ export default function CreateGame() {
             </h2>
             <p className="text-sm text-gray-400 mb-4">
               Click on the map to set the home base location for your game
+              {locationError && (
+                <span className="text-yellow-400 block mt-1">
+                  Using Chicago as default location - click to change
+                </span>
+              )}
             </p>
 
             <div className="h-[500px] rounded-lg overflow-hidden">
-              <MapContainer
-                center={[currentLocation.latitude, currentLocation.longitude]}
-                zoom={15}
-                className="h-full w-full"
-              >
+              {currentLocation ? (
+                <MapContainer
+                  center={[currentLocation.latitude, currentLocation.longitude]}
+                  zoom={15}
+                  className="h-full w-full"
+                >
                 <TileLayer
                   url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
                   attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -292,7 +284,15 @@ export default function CreateGame() {
                   position={homeBase}
                   onPositionChange={setHomeBase}
                 />
-              </MapContainer>
+                </MapContainer>
+              ) : (
+                <div className="h-full w-full bg-gray-700 flex items-center justify-center">
+                  <div className="text-gray-400">
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-cyan-400 mb-2 mx-auto"></div>
+                    <p>Loading map...</p>
+                  </div>
+                </div>
+              )}
             </div>
 
             {homeBase && (
